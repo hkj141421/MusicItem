@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.UserAuthorityMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.UserAuthorityKey">
+        <id column="UserID" jdbcType="BIGINT" property="userid"/>
+        <id column="RoleID" jdbcType="BIGINT" property="roleid"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="com.example.demo.Entity.UserAuthorityKey">
+    delete from userauthority
+    where UserID = #{userid,jdbcType=BIGINT}
+      and RoleID = #{roleid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.UserAuthorityKey">
+    insert into userauthority (UserID, RoleID)
+    values (#{userid,jdbcType=BIGINT}, #{roleid,jdbcType=BIGINT})
+  </insert>
+    <insert id="AddSuperAuthority" parameterType="com.example.demo.Entity.UserAuthorityKey">
+    insert into userauthority (UserID, RoleID)
+    values (#{userid,jdbcType=BIGINT}, 3)
+  </insert>
+    <insert id="AddAdminAuthority" parameterType="com.example.demo.Entity.UserAuthorityKey">
+    insert into userauthority (UserID, RoleID)
+    values (#{userid,jdbcType=BIGINT}, 1)
+  </insert>
+    <insert id="AddUserAuthority" parameterType="com.example.demo.Entity.UserAuthorityKey">
+    insert into userauthority (UserID, RoleID)
+    values (#{userid,jdbcType=BIGINT}, 2)
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.UserAuthorityKey">
+        insert into userauthority
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                UserID,
+            </if>
+            <if test="roleid != null">
+                RoleID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="roleid != null">
+                #{roleid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

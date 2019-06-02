@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.FansMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.Fans">
+        <result column="userid" jdbcType="BIGINT" property="userid"/>
+        <result column="likeuserid" jdbcType="BIGINT" property="likeuserid"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.example.demo.Entity.Fans">
+    insert into fans (userid, likeuserid)
+    values (#{userid,jdbcType=BIGINT}, #{likeuserid,jdbcType=BIGINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.Fans">
+        insert into fans
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                userid,
+            </if>
+            <if test="likeuserid != null">
+                likeuserid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="likeuserid != null">
+                #{likeuserid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="CountFans" resultType="int" parameterType="Long">
+    SELECT COUNT(1) FROM fans WHERE userid=#{userid}
+  </select>
+    <select id="IsFans" resultType="int" parameterType="Fans">
+    SELECT COUNT(1) FROM fans WHERE userid=#{userid} and likeuserid=#{likeuserid}
+  </select>
+    <insert id="addFansInfo" parameterType="Fans">
+    INSERT INTO fans (userid,likeuserid)
+    select #{userid},#{likeuserid} from dual where not exists (select 1 from fans where userid=#{userid} and likeuserid=#{likeuserid})
+  </insert>
+    <delete id="deleteFansInfo" parameterType="Fans">
+    DELETE FROM fans WHERE userid=#{userid} AND likeuserid=#{likeuserid}
+  </delete>
+
+</mapper>

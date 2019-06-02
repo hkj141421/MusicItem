@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.Comment">
+        <id column="CommentId" jdbcType="BIGINT" property="commentid"/>
+        <result column="UserId" jdbcType="BIGINT" property="userid"/>
+        <result column="MusicId" jdbcType="BIGINT" property="musicid"/>
+        <result column="date" jdbcType="TIMESTAMP" property="date"/>
+        <result column="Fabulous" jdbcType="BIGINT" property="fabulous"/>
+        <result column="ReplyCommentId" jdbcType="BIGINT" property="replycommentid"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.Comment">
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    CommentId, UserId, MusicId, date, Fabulous, ReplyCommentId
+  </sql>
+    <sql id="Blob_Column_List">
+    content
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from comment
+        where CommentId = #{commentid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from comment
+    where CommentId = #{commentid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.Comment">
+    insert into comment (CommentId, UserId, MusicId, 
+      date, Fabulous, ReplyCommentId, 
+      content)
+    values (#{commentid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{musicid,jdbcType=BIGINT}, 
+      #{date,jdbcType=TIMESTAMP}, #{fabulous,jdbcType=BIGINT}, #{replycommentid,jdbcType=BIGINT}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.Comment">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentid != null">
+                CommentId,
+            </if>
+            <if test="userid != null">
+                UserId,
+            </if>
+            <if test="musicid != null">
+                MusicId,
+            </if>
+            <if test="date != null">
+                date,
+            </if>
+            <if test="fabulous != null">
+                Fabulous,
+            </if>
+            <if test="replycommentid != null">
+                ReplyCommentId,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentid != null">
+                #{commentid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="musicid != null">
+                #{musicid,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fabulous != null">
+                #{fabulous,jdbcType=BIGINT},
+            </if>
+            <if test="replycommentid != null">
+                #{replycommentid,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.Comment">
+        update comment
+        <set>
+            <if test="userid != null">
+                UserId = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="musicid != null">
+                MusicId = #{musicid,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                date = #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fabulous != null">
+                Fabulous = #{fabulous,jdbcType=BIGINT},
+            </if>
+            <if test="replycommentid != null">
+                ReplyCommentId = #{replycommentid,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where CommentId = #{commentid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.Entity.Comment">
+    update comment
+    set UserId = #{userid,jdbcType=BIGINT},
+      MusicId = #{musicid,jdbcType=BIGINT},
+      date = #{date,jdbcType=TIMESTAMP},
+      Fabulous = #{fabulous,jdbcType=BIGINT},
+      ReplyCommentId = #{replycommentid,jdbcType=BIGINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where CommentId = #{commentid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.Comment">
+    update comment
+    set UserId = #{userid,jdbcType=BIGINT},
+      MusicId = #{musicid,jdbcType=BIGINT},
+      date = #{date,jdbcType=TIMESTAMP},
+      Fabulous = #{fabulous,jdbcType=BIGINT},
+      ReplyCommentId = #{replycommentid,jdbcType=BIGINT}
+    where CommentId = #{commentid,jdbcType=BIGINT}
+  </update>
+
+    <select id="getCommentInfo" resultMap="ResultMapWithBLOBs" parameterType="Comment">
+        SELECT * FROM comment where 1=1
+        <trim prefix="where" prefixOverrides="and">
+            <if test="musicid!=null">and MusicId=#{musicid}</if>
+            <if test="date!=null">and date=#{date}</if>
+            <if test="content!=null">and content=#{content}</if>
+            <if test="fabulous!=null">and Fabulous=#{fabulous}</if>
+            <if test="userid!=null">and UserId=#{userid}</if>
+            <if test="commentid!=null">and CommentId=#{commentid}</if>
+            <if test="replycommentid!=null">and ReplyCommentId=#{replycommentid}</if>
+        </trim>
+    </select>
+
+    <select id="getCommentPage" resultMap="ResultMapWithBLOBs" parameterType="HashMap">
+        SELECT * FROM comment
+        <trim prefix="where" suffix="order by date limit #{start},#{size}" prefixOverrides="and">
+            <if test="MusicId!=null">and MusicId=#{musicid}</if>
+            <if test="date!=null">and date=#{date}</if>
+            <if test="content!=null">and content=#{content}</if>
+            <if test="Fabulous!=null">and Fabulous=#{fabulous}</if>
+            <if test="UserId!=null">and UserId=#{userid}</if>
+            <if test="CommentId!=null">and CommentId=#{commentid}</if>
+            <if test="ReplyCommentId!=null">and ReplyCommentId=#{replycommentid}</if>
+        </trim>
+    </select>
+
+    <select id="getNotReplyComment" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM comment where MusicId=#{musicid} and ReplyCommentId is NULL order by date limit #{start},#{size}
+  </select>
+
+    <insert id="addCommentInfo" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentid">
+    INSERT INTO comment (MusicId,UserId,date,content)
+    VALUES (#{musicid},#{userid},#{date},#{content})
+  </insert>
+    <insert id="addReplyCommentInfo" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentid">
+    INSERT INTO comment (MusicId,UserId,date,content,ReplyCommentId)
+    VALUES (#{musicid},#{userid},#{date},#{content},#{replycommentid})
+  </insert>
+    <delete id="deleteCommentInfo" parameterType="Long">
+    DELETE FROM comment WHERE CommentId=#{commentid}
+  </delete>
+    <update id="updateCommentInfo" parameterType="Comment">
+    UPDATE comment set Fabulous = #{fabulous,jdbcType=BIGINT} WHERE CommentId=#{commentid}
+  </update>
+
+    <select id="selectCommentByMusicidFromMusic" resultType="java.util.HashMap">
+    select username,userheadimg,userid,content,date,fabulous,commentid,replycommentid,`count` from music_comment_info_v v where v.musicid=#{musicid} and v.replycommentid is null order by date limit #{start},#{size}
+  </select>
+    <select id="selectCommentCountByMusicidFromMusic" resultType="Long">
+    select count(1) from music_comment_info_v v where v.musicid=#{musicid} and v.replycommentid is null
+  </select>
+    <select id="selectReplyByCommentidFromMusic" resultType="java.util.HashMap">
+    select username,userheadimg,userid,content,date,fabulous,commentid,replycommentid,`count` from music_comment_info_v v where v.replycommentid=#{commentid} order by date limit #{start},#{size}
+  </select>
+
+
+</mapper>

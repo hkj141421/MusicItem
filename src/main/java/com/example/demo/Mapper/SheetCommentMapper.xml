@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.SheetConmentMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.SongSheetComment">
+        <id column="CommentId" jdbcType="BIGINT" property="commentid"/>
+        <result column="UserId" jdbcType="BIGINT" property="userid"/>
+        <result column="SheetId" jdbcType="BIGINT" property="sheetid"/>
+        <result column="date" jdbcType="TIMESTAMP" property="date"/>
+        <result column="Fabulous" jdbcType="BIGINT" property="fabulous"/>
+        <result column="ReplyCommentId" jdbcType="BIGINT" property="replycommentid"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.Comment">
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+
+    <insert id="addCommentInfo" parameterType="SongSheetComment" useGeneratedKeys="true" keyProperty="commentid">
+        INSERT INTO sheetcomment (SheetId,UserId,date,content)
+        VALUES (#{sheetid},#{userid},#{date},#{content})
+    </insert>
+    <insert id="addReplyCommentInfo" parameterType="SongSheetComment" useGeneratedKeys="true" keyProperty="commentid">
+        INSERT INTO sheetcomment (SheetId,UserId,date,content,ReplyCommentId)
+        VALUES (#{sheetid},#{userid},#{date},#{content},#{replycommentid})
+    </insert>
+    <delete id="deleteCommentInfo" parameterType="Long">
+        DELETE FROM sheetcomment WHERE CommentId=#{commentid}
+    </delete>
+    <update id="updateCommentInfo" parameterType="SongSheetComment">
+        update sheetcomment
+        <set>
+            <if test="sheetid != null">
+                SheetId = #{sheetid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                UserId = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                date = #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fabulous != null">
+                Fabulous = #{fabulous,jdbcType=BIGINT},
+            </if>
+            <if test="replycommentid != null">
+                ReplyCommentId = #{replycommentid,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where CommentId = #{commentid,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectCommentBySheetidFromSheet" resultType="java.util.HashMap">
+        select username,userheadimg,userid,content,date,fabulous,commentid,replycommentid,`count` from sheet_comment_info_v v where v.sheetid=#{sheetid} and v.replycommentid is null order by date limit #{start},#{size}
+    </select>
+    <select id="selectCommentCountBySheetidFromSheet" resultType="Long">
+        select count(1) from sheet_comment_info_v v where v.sheetid=#{sheetid} and v.replycommentid is null
+    </select>
+    <select id="selectReplyByCommentidFromSheet" resultType="java.util.HashMap">
+        select username,userheadimg,userid,content,date,fabulous,commentid,replycommentid,`count` from sheet_comment_info_v v where v.replycommentid=#{commentid} order by date limit #{start},#{size}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.LrcMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.Lrc">
+        <id column="LrcId" jdbcType="BIGINT" property="lrcid"/>
+        <result column="LrcName" jdbcType="VARCHAR" property="lrcname"/>
+        <result column="Content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.Lrc">
+        <result column="Content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    LrcId, LrcName
+  </sql>
+    <sql id="Blob_Column_List">
+    Content
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from lrc
+        where LrcId = #{lrcid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from lrc
+    where LrcId = #{lrcid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.Lrc" useGeneratedKeys="true" keyProperty="lrcid">
+    insert into lrc (LrcId, LrcName, Content
+      )
+    values (#{lrcid,jdbcType=BIGINT}, #{lrcname,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.Lrc">
+        insert into lrc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lrcid != null">
+                LrcId,
+            </if>
+            <if test="lrcname != null">
+                LrcName,
+            </if>
+            <if test="content != null">
+                Content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lrcid != null">
+                #{lrcid,jdbcType=BIGINT},
+            </if>
+            <if test="lrcname != null">
+                #{lrcname,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.Lrc">
+        update lrc
+        <set>
+            <if test="lrcname != null">
+                LrcName = #{lrcname,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                Content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where LrcId = #{lrcid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.Entity.Lrc">
+    update lrc
+    set LrcName = #{lrcname,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=LONGVARCHAR}
+    where LrcId = #{lrcid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.Lrc">
+    update lrc
+    set LrcName = #{lrcname,jdbcType=VARCHAR}
+    where LrcId = #{lrcid,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectByname" parameterType="String" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM lrc WHERE LrcName=#{lrcname}
+  </select>
+    <select id="getLrctInfo" resultMap="ResultMapWithBLOBs" parameterType="Long">
+    SELECT * FROM lrc WHERE LrcId=#{lrcid}
+  </select>
+    <insert id="addLrcInfo" parameterType="Lrc" useGeneratedKeys="true" keyProperty="LrcId">
+    INSERT INTO lrc (Content,LrcName)
+    select #{content},#{lrcname}
+    from dual where not exists
+    (select 1 from lrc where LrcName=#{lrcname})
+  </insert>
+    <delete id="deleteLrcInfo" parameterType="Long">
+    DELETE FROM lrc WHERE LrcId=#{lrcid}
+  </delete>
+    <update id="updateLrctInfo" parameterType="Lrc">
+        UPDATE lrc
+        <trim prefix="set" suffix="WHERE LrcId=#{lrcid}" suffixOverrides=",">
+            <if test="LrcName!=null">LrcName=#{lrcname},</if>
+            <if test="Content!=null">Content=#{content},</if>
+        </trim>
+    </update>
+
+</mapper>

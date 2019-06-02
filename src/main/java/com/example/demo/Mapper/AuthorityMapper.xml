@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.AuthorityMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.Authority">
+        <id column="RoleID" jdbcType="BIGINT" property="roleid"/>
+        <result column="RoleName" jdbcType="VARCHAR" property="rolename"/>
+        <result column="AuthorityName" jdbcType="VARCHAR" property="authorityname"/>
+        <result column="AuthorityInfo" jdbcType="VARCHAR" property="authorityinfo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    RoleID, RoleName, AuthorityName, AuthorityInfo
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from authority
+        where RoleID = #{roleid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from authority
+    where RoleID = #{roleid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.Authority">
+    insert into authority (RoleID, RoleName, AuthorityName, 
+      AuthorityInfo)
+    values (#{roleid,jdbcType=BIGINT}, #{rolename,jdbcType=VARCHAR}, #{authorityname,jdbcType=VARCHAR}, 
+      #{authorityinfo,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.Authority">
+        insert into authority
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleid != null">
+                RoleID,
+            </if>
+            <if test="rolename != null">
+                RoleName,
+            </if>
+            <if test="authorityname != null">
+                AuthorityName,
+            </if>
+            <if test="authorityinfo != null">
+                AuthorityInfo,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleid != null">
+                #{roleid,jdbcType=BIGINT},
+            </if>
+            <if test="rolename != null">
+                #{rolename,jdbcType=VARCHAR},
+            </if>
+            <if test="authorityname != null">
+                #{authorityname,jdbcType=VARCHAR},
+            </if>
+            <if test="authorityinfo != null">
+                #{authorityinfo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.Authority">
+        update authority
+        <set>
+            <if test="rolename != null">
+                RoleName = #{rolename,jdbcType=VARCHAR},
+            </if>
+            <if test="authorityname != null">
+                AuthorityName = #{authorityname,jdbcType=VARCHAR},
+            </if>
+            <if test="authorityinfo != null">
+                AuthorityInfo = #{authorityinfo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where RoleID = #{roleid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.Authority">
+    update authority
+    set RoleName = #{rolename,jdbcType=VARCHAR},
+      AuthorityName = #{authorityname,jdbcType=VARCHAR},
+      AuthorityInfo = #{authorityinfo,jdbcType=VARCHAR}
+    where RoleID = #{roleid,jdbcType=BIGINT}
+  </update>
+</mapper>

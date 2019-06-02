@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.UserCollectionMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.UserCollection">
+        <result column="UserId" jdbcType="BIGINT" property="userid"/>
+        <result column="SheetId" jdbcType="BIGINT" property="sheetid"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.example.demo.Entity.UserCollection">
+    insert into usercollectioninfo (UserId, SheetId)
+    values (#{userid,jdbcType=BIGINT}, #{sheetid,jdbcType=BIGINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.UserCollection">
+        insert into usercollectioninfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                UserId,
+            </if>
+            <if test="sheetid != null">
+                SheetId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="sheetid != null">
+                #{sheetid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <insert id="InsertNoexist" parameterType="UserCollection">
+    INSERT INTO usercollectioninfo (UserId,SheetId)
+    select #{userid},#{sheetid}
+    from dual where not exists
+    (select 1 from usercollectioninfo where UserId=#{userid} and SheetId=#{sheetid})
+  </insert>
+    <select id="getCollection" parameterType="UserCollection" resultMap="BaseResultMap">
+    select * from usercollectioninfo where UserId=#{userid} and SheetId=#{sheetid}
+  </select>
+    <insert id="AddCollection" parameterType="UserCollection">
+    INSERT INTO usercollectioninfo (UserId,SheetId)
+    VALUES (#{userid},#{sheetid})
+  </insert>
+    <delete id="DeleteCollection" parameterType="UserCollection">
+    DELETE usercollectioninfo WHERE UserId=#{userid} and SheetId=#{sheetid}
+  </delete>
+    <update id="UpdateCollection" parameterType="UserCollection">
+        UPDATE usercollectioninfo
+        <trim prefix="set" suffix="where UserId=#{UserId}" suffixOverrides=",">
+            <if test="sheetid!=null">SheetId=#{sheetid},</if>
+        </trim>
+    </update>
+    <select id="getCollectionList" parameterType="UserCollection" resultMap="BaseResultMap">
+        select * from usercollectioninfo
+        <trim prefix="where" prefixOverrides="and">
+            <if test="userid!=null">UserId=#{userid}</if>
+            <if test="sheetid!=null">and SheetId=#{sheetid}</if>
+        </trim>
+    </select>
+    <select id="getCollectCountBysheetid" parameterType="Long" resultType="long">
+    select count(1) as collectcount from usercollectioninfo where SheetId=#{sheetid}
+  </select>
+</mapper>

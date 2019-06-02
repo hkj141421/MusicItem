@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.SingerMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.Singer">
+        <id column="SingerId" jdbcType="BIGINT" property="singerid"/>
+        <result column="SingerName" jdbcType="VARCHAR" property="singername"/>
+        <result column="SingerImg" jdbcType="VARCHAR" property="singerimg"/>
+        <result column="SingerSex" jdbcType="VARCHAR" property="singersex"/>
+        <result column="SingerHotNumber" jdbcType="BIGINT" property="singerhotnumber"/>
+        <result column="Alias" jdbcType="VARCHAR" property="alias"/>
+        <result column="AlbumSize" jdbcType="DOUBLE" property="albumsize"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.Singer">
+        <result column="BriefDesc" jdbcType="LONGVARCHAR" property="briefdesc"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    SingerId, SingerName, SingerImg, SingerSex, SingerHotNumber, Alias, AlbumSize
+  </sql>
+    <sql id="Blob_Column_List">
+    BriefDesc
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from singerbaseinfo
+        where SingerId = #{singerid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from singerbaseinfo
+    where SingerId = #{singerid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.Singer">
+    insert into singerbaseinfo (SingerId, SingerName, SingerImg, 
+      SingerSex, SingerHotNumber, Alias, 
+      AlbumSize, BriefDesc)
+    values (#{singerid,jdbcType=BIGINT}, #{singername,jdbcType=VARCHAR}, #{singerimg,jdbcType=VARCHAR}, 
+      #{singersex,jdbcType=VARCHAR}, #{singerhotnumber,jdbcType=BIGINT}, #{alias,jdbcType=VARCHAR}, 
+      #{albumsize,jdbcType=DOUBLE}, #{briefdesc,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.Singer">
+        insert into singerbaseinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="singerid != null">
+                SingerId,
+            </if>
+            <if test="singername != null">
+                SingerName,
+            </if>
+            <if test="singerimg != null">
+                SingerImg,
+            </if>
+            <if test="singersex != null">
+                SingerSex,
+            </if>
+            <if test="singerhotnumber != null">
+                SingerHotNumber,
+            </if>
+            <if test="alias != null">
+                Alias,
+            </if>
+            <if test="albumsize != null">
+                AlbumSize,
+            </if>
+            <if test="briefdesc != null">
+                BriefDesc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="singerid != null">
+                #{singerid,jdbcType=BIGINT},
+            </if>
+            <if test="singername != null">
+                #{singername,jdbcType=VARCHAR},
+            </if>
+            <if test="singerimg != null">
+                #{singerimg,jdbcType=VARCHAR},
+            </if>
+            <if test="singersex != null">
+                #{singersex,jdbcType=VARCHAR},
+            </if>
+            <if test="singerhotnumber != null">
+                #{singerhotnumber,jdbcType=BIGINT},
+            </if>
+            <if test="alias != null">
+                #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="albumsize != null">
+                #{albumsize,jdbcType=DOUBLE},
+            </if>
+            <if test="briefdesc != null">
+                #{briefdesc,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.Singer">
+        update singerbaseinfo
+        <set>
+            <if test="singername != null">
+                SingerName = #{singername,jdbcType=VARCHAR},
+            </if>
+            <if test="singerimg != null">
+                SingerImg = #{singerimg,jdbcType=VARCHAR},
+            </if>
+            <if test="singersex != null">
+                SingerSex = #{singersex,jdbcType=VARCHAR},
+            </if>
+            <if test="singerhotnumber != null">
+                SingerHotNumber = #{singerhotnumber,jdbcType=BIGINT},
+            </if>
+            <if test="alias != null">
+                Alias = #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="albumsize != null">
+                AlbumSize = #{albumsize,jdbcType=DOUBLE},
+            </if>
+            <if test="briefdesc != null">
+                BriefDesc = #{briefdesc,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where SingerId = #{singerid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.Entity.Singer">
+    update singerbaseinfo
+    set SingerName = #{singername,jdbcType=VARCHAR},
+      SingerImg = #{singerimg,jdbcType=VARCHAR},
+      SingerSex = #{singersex,jdbcType=VARCHAR},
+      SingerHotNumber = #{singerhotnumber,jdbcType=BIGINT},
+      Alias = #{alias,jdbcType=VARCHAR},
+      AlbumSize = #{albumsize,jdbcType=DOUBLE},
+      BriefDesc = #{briefdesc,jdbcType=LONGVARCHAR}
+    where SingerId = #{singerid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.Singer">
+    update singerbaseinfo
+    set SingerName = #{singername,jdbcType=VARCHAR},
+      SingerImg = #{singerimg,jdbcType=VARCHAR},
+      SingerSex = #{singersex,jdbcType=VARCHAR},
+      SingerHotNumber = #{singerhotnumber,jdbcType=BIGINT},
+      Alias = #{alias,jdbcType=VARCHAR},
+      AlbumSize = #{albumsize,jdbcType=DOUBLE}
+    where SingerId = #{singerid,jdbcType=BIGINT}
+  </update>
+
+    <insert id="InsertNoexist" parameterType="Singer">
+    INSERT INTO singerbaseinfo (SingerName,SingerImg,SingerHotNumber,Alias,BriefDesc)
+    select #{singername},#{singerimg},#{singerhotnumber},#{alias},#{briefdesc}
+    from dual where not exists
+    (select 1 from singerbaseinfo where SingerName=#{singername})
+  </insert>
+    <select id="getSinger" resultMap="ResultMapWithBLOBs" parameterType="String">
+    select * from singerbaseinfo where SingerId=#{singerid}
+  </select>
+    <insert id="AddSinger" parameterType="Singer">
+    INSERT INTO singerbaseinfo (SingerName,SingerImg,SingerSex,SingerHotNumber,Alias,AlbumSize,BriefDesc)
+    VALUES (#{singername},#{singerimg},#{singersex},#{singerhotnumber},#{alias},#{albumsize},#{briefdesc})
+  </insert>
+    <delete id="DeleteSinger" parameterType="Long">
+    DELETE singerbaseinfo WHERE SingerId=#{SingerId}
+  </delete>
+    <update id="UpdateSinger" parameterType="Singer">
+        UPDATE singerbaseinfo
+        <trim prefix="set" suffix="where SingerId=#{singerid}" suffixOverrides=",">
+            <if test="singername!=null">SingerName=#{singername},</if>
+            <if test="singerimg!=null">SingerImg=#{singerimg},</if>
+            <if test="singersex!=null">SingerSex=#{singersex},</if>
+            <if test="singerhotnumber!=null">SingerHotNumber=#{singerhotnumber}</if>
+            <if test="alias!=null">Alias=#{alias}</if>
+            <if test="albumsize!=null">AlbumSize=#{albumsize}</if>
+            <if test="briefdesc!=null">BriefDesc=#{briefdesc}</if>
+        </trim>
+    </update>
+    <select id="getSingerList" parameterType="Singer" resultMap="ResultMapWithBLOBs">
+        select * from singerbaseinfo where 1=1
+        <if test="singername!=null">and SingerName=#{singername}</if>
+        <if test="singerimg!=null">and SingerImg=#{singerimg}</if>
+        <if test="singersex!=null">and SingerSex=#{singersex}</if>
+        <if test="singerhotnumber!=null">and SingerHotNumber=#{singerhotnumber}</if>
+        <if test="alias!=null">and Alias=#{alias}</if>
+        <if test="albumsize!=null">and AlbumSize=#{albumsize}</if>
+    </select>
+    <select id="getLikeSingerList" parameterType="Singer" resultMap="ResultMapWithBLOBs">
+        select * from singerbaseinfo where 1=1
+        <if test="singername!=null">and SingerName like #{singername}</if>
+        <if test="singerhotnumber!=null">and SingerHotNumber >= #{singerhotnumber}</if>
+        <if test="alias!=null">and Alias like #{alias}</if>
+    </select>
+
+    <select id="getRandomSingerList" resultMap="ResultMapWithBLOBs" parameterType="Long">
+    SELECT *
+    FROM `singerbaseinfo` AS t1 JOIN (
+    SELECT ROUND(RAND() * ((SELECT MAX(SingerId) FROM `singerbaseinfo`)-(SELECT MIN(SingerId) FROM `singerbaseinfo`))+
+    (SELECT MIN(SingerId) FROM `singerbaseinfo`)) AS id) AS t2
+    WHERE t1.SingerId >= t2.id
+    ORDER BY t1.SingerId LIMIT #{size};
+  </select>
+
+    <select id="searchSinger" resultMap="ResultMapWithBLOBs">
+    select * from singerbaseinfo s where s.SingerName LIKE #{key} limit #{pagenum},#{size}
+  </select>
+
+    <select id="countSearchSinger" parameterType="String" resultType="Long">
+    select count(1) as count from singerbaseinfo s where s.SingerName LIKE #{key}
+  </select>
+
+    <select id="getAllSinger" resultMap="BaseResultMap">
+    SELECT * FROM singerbaseinfo limit #{pagenum},#{size}
+  </select>
+
+    <select id="getAllSingerCount" resultType="Long">
+    SELECT count(1) count FROM singerbaseinfo
+  </select>
+
+    <delete id="Batchdeletion" parameterType="List">
+        delete from singerbaseinfo where SingerId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

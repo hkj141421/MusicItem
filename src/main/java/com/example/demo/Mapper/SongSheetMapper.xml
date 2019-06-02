@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.SongSheetMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.SongSheet">
+        <id column="SheetId" jdbcType="BIGINT" property="sheetid"/>
+        <result column="SongSheetName" jdbcType="VARCHAR" property="songsheetname"/>
+        <result column="Type" jdbcType="VARCHAR" property="type"/>
+        <result column="CoverImg" jdbcType="VARCHAR" property="coverimg"/>
+        <result column="Producer" jdbcType="VARCHAR" property="producer"/>
+        <result column="State" jdbcType="INTEGER" property="state"/>
+        <result column="Time" jdbcType="TIMESTAMP" property="time"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.SongSheet">
+        <result column="Introduce" jdbcType="LONGVARCHAR" property="introduce"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    SheetId, SongSheetName, Type, CoverImg, Producer, State, Time
+  </sql>
+    <sql id="Blob_Column_List">
+    Introduce
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from songsheet
+        where SheetId = #{sheetid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from songsheet
+    where SheetId = #{sheetid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.SongSheet">
+    insert into songsheet (SheetId, SongSheetName, Type, 
+      CoverImg, Producer, State, 
+      Time, Introduce)
+    values (#{sheetid,jdbcType=BIGINT}, #{songsheetname,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{coverimg,jdbcType=VARCHAR}, #{producer,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{time,jdbcType=TIMESTAMP}, #{introduce,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.SongSheet">
+        insert into songsheet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sheetid != null">
+                SheetId,
+            </if>
+            <if test="songsheetname != null">
+                SongSheetName,
+            </if>
+            <if test="type != null">
+                Type,
+            </if>
+            <if test="coverimg != null">
+                CoverImg,
+            </if>
+            <if test="producer != null">
+                Producer,
+            </if>
+            <if test="state != null">
+                State,
+            </if>
+            <if test="time != null">
+                Time,
+            </if>
+            <if test="introduce != null">
+                Introduce,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sheetid != null">
+                #{sheetid,jdbcType=BIGINT},
+            </if>
+            <if test="songsheetname != null">
+                #{songsheetname,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="coverimg != null">
+                #{coverimg,jdbcType=VARCHAR},
+            </if>
+            <if test="producer != null">
+                #{producer,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="introduce != null">
+                #{introduce,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.SongSheet">
+        update songsheet
+        <set>
+            <if test="songsheetname != null">
+                SongSheetName = #{songsheetname,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                Type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="coverimg != null">
+                CoverImg = #{coverimg,jdbcType=VARCHAR},
+            </if>
+            <if test="producer != null">
+                Producer = #{producer,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                State = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="time != null">
+                Time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="introduce != null">
+                Introduce = #{introduce,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where SheetId = #{sheetid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.Entity.SongSheet">
+    update songsheet
+    set SongSheetName = #{songsheetname,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=VARCHAR},
+      CoverImg = #{coverimg,jdbcType=VARCHAR},
+      Producer = #{producer,jdbcType=VARCHAR},
+      State = #{state,jdbcType=INTEGER},
+      Time = #{time,jdbcType=TIMESTAMP},
+      Introduce = #{introduce,jdbcType=LONGVARCHAR}
+    where SheetId = #{sheetid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.SongSheet">
+    update songsheet
+    set SongSheetName = #{songsheetname,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=VARCHAR},
+      CoverImg = #{coverimg,jdbcType=VARCHAR},
+      Producer = #{producer,jdbcType=VARCHAR},
+      State = #{state,jdbcType=INTEGER},
+      Time = #{time,jdbcType=TIMESTAMP}
+    where SheetId = #{sheetid,jdbcType=BIGINT}
+  </update>
+
+
+    <select id="getSheetById" resultType="HashMap" parameterType="Long">
+    select * from songsheet_v where sheetid=#{SheetId}
+  </select>
+    <insert id="InsertMusicToSheet">
+    INSERT INTO songsheetinfo (MusicId,SheetId)
+    select #{MusicId},#{SheetId}
+    from dual where not exists
+    (select 1 from songsheetinfo where MusicId=#{MusicId} and SheetId=#{SheetId})
+  </insert>
+    <insert id="InsertNoexist" parameterType="SongSheet" useGeneratedKeys="true" keyProperty="sheetid">
+    INSERT INTO songsheet (SongSheetName,Type,Producer,Introduce)
+    select #{songsheetname},#{type},#{producer},#{introduce}
+    from dual where not exists
+    (select 1 from songsheet where SongSheetName=#{songsheetname} and Producer=#{producer})
+  </insert>
+    <select id="getSongSheetByCondition" resultMap="ResultMapWithBLOBs" parameterType="SongSheet">
+        SELECT * FROM songsheet
+        <trim prefix="WHERE" prefixOverrides="and">
+            <if test="producer!=null">Producer=#{producer}</if>
+            <if test="songsheetname!=null">and SongSheetName=#{songsheetname}</if>
+        </trim>
+    </select>
+    <select id="getUserSongsheetinfoByCollect" resultMap="ResultMapWithBLOBs">
+    SELECT SheetId,SongSheetName,Type,CoverImg,Producer,Introduce,State,Time  FROM usercollection_v WHERE UserId=#{id} AND Producer!=#{Producer}
+  </select>
+    <select id="getUserSongsheetinfoByself" resultMap="ResultMapWithBLOBs">
+    SELECT SheetId,SongSheetName,Type,CoverImg,Producer,Introduce,State,Time FROM usercollection_v WHERE UserId=#{id} AND Producer=#{Producer}
+  </select>
+    <select id="getAllSongSheetInfo" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM songsheet limit #{start},#{size}
+  </select>
+    <insert id="CreateSongSheet" parameterType="SongSheet" useGeneratedKeys="true" keyProperty="sheetid">
+        INSERT INTO songsheet (SongSheetName,Type,CoverImg,
+        <if test="producer!=null">Producer,</if>
+        Introduce)
+        VALUES (#{songsheetname},#{type},#{coverimg},
+        <if test="producer!=null">#{producer},</if>
+        #{introduce})
+    </insert>
+    <delete id="deleteSongSheet" parameterType="Long">
+    DELETE FROM songsheet WHERE SheetId=#{SheetId}
+  </delete>
+    <update id="updateSongSheetInfo" parameterType="SongSheet">
+        UPDATE SongSheet
+        <trim prefix="set" suffix="WHERE SongSheetName=#{songsheetname} AND Producer=#{producer}" suffixOverrides=",">
+            <if test="type!=null">Type=#{type},</if>
+            <if test="coverimg!=null">CoverImg=#{coverimg},</if>
+            <if test="introduce!=null">Introduce=#{introduce},</if>
+            <if test="state!=null">state=#{state},</if>
+        </trim>
+    </update>
+    <select id="selectSheetByType" resultType="HashMap">
+    select  * from songsheet_v s where s.type like #{type} and s.state!=1 order by s.collectcount desc limit #{pagenum},#{size}
+  </select>
+
+    <select id="selectSheetByTime" resultType="HashMap">
+    select  * from songsheet_v s where s.state!=1 order by s.collectcount desc limit #{pagenum},#{size}
+  </select>
+
+    <select id="selectUserCreateSheet" resultType="HashMap">
+    select  SheetId sheetid,SongSheetName songsheetname,CoverImg coverimg,Count count from usercollection_v s where s.UserId=#{userid} and s.Producer=#{username}
+  </select>
+
+    <select id="selectPageSheet" resultMap="ResultMapWithBLOBs">
+    select * from songsheet s where s.Type LIKE #{type} limit #{pagenum},#{size}
+  </select>
+
+    <select id="selectCountSheet" resultType="Long" parameterType="String">
+    select count(1) as count from songsheet s where s.Type LIKE #{type}
+  </select>
+
+    <select id="searchSheet" resultMap="ResultMapWithBLOBs">
+  select * from songsheet ss where ss.SongSheetName like  #{key} or ss.Type like  #{key} or ss.Producer like  #{key} limit #{pagenum},#{size}
+  </select>
+
+    <select id="countSearchSheet" resultType="Long">
+    select count(1) as count from songsheet ss where ss.SongSheetName like  #{key} or ss.Type like  #{key} or ss.Producer like  #{key}
+  </select>
+
+    <select id="getAllSheet" resultMap="BaseResultMap">
+    SELECT * FROM songsheet limit #{pagenum},#{size}
+  </select>
+
+    <select id="getAllSheetCount" resultType="Long">
+    SELECT count(1) count FROM songsheet
+  </select>
+
+    <delete id="Batchdeletion" parameterType="List">
+        delete from songsheet where SheetId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.User">
+        <id column="UserId" jdbcType="BIGINT" property="userid"/>
+        <result column="UserName" jdbcType="VARCHAR" property="username"/>
+        <result column="UserAccount" jdbcType="VARCHAR" property="useraccount"/>
+        <result column="UserPassword" jdbcType="VARCHAR" property="userpassword"/>
+        <result column="UserHeadImg" jdbcType="VARCHAR" property="userheadimg"/>
+        <result column="Email" jdbcType="VARCHAR" property="email"/>
+        <result column="RegisterTime" jdbcType="TIMESTAMP" property="registertime"/>
+        <result column="Birthday" jdbcType="DATE" property="birthday"/>
+        <result column="Location" jdbcType="VARCHAR" property="location"/>
+        <result column="Sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="MusicPreference" jdbcType="VARCHAR" property="musicpreference"/>
+        <result column="Status" jdbcType="VARCHAR" property="status"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.User">
+        <result column="Signature" jdbcType="LONGVARCHAR" property="signature"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    UserId, UserName, UserAccount, UserPassword, UserHeadImg, Email, RegisterTime, Birthday, 
+    Location, Sex, MusicPreference
+  </sql>
+    <sql id="Blob_Column_List">
+    Signature
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from userbaseinfo
+        where UserId = #{userid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from userbaseinfo
+    where UserId = #{userid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.User">
+    insert into userbaseinfo (UserId, UserName, UserAccount, 
+      UserPassword, UserHeadImg, Email, 
+      RegisterTime, Birthday, Location, 
+      Sex, MusicPreference, Signature
+      )
+    values (#{userid,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{useraccount,jdbcType=VARCHAR}, 
+      #{userpassword,jdbcType=VARCHAR}, #{userheadimg,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{registertime,jdbcType=TIMESTAMP}, #{birthday,jdbcType=DATE}, #{location,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{musicpreference,jdbcType=VARCHAR}, #{signature,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.User">
+        insert into userbaseinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                UserId,
+            </if>
+            <if test="username != null">
+                UserName,
+            </if>
+            <if test="useraccount != null">
+                UserAccount,
+            </if>
+            <if test="userpassword != null">
+                UserPassword,
+            </if>
+            <if test="userheadimg != null">
+                UserHeadImg,
+            </if>
+            <if test="email != null">
+                Email,
+            </if>
+            RegisterTime,
+            <if test="birthday != null">
+                Birthday,
+            </if>
+            <if test="location != null">
+                Location,
+            </if>
+            <if test="sex != null">
+                Sex,
+            </if>
+            <if test="musicpreference != null">
+                MusicPreference,
+            </if>
+            <if test="signature != null">
+                Signature,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="useraccount != null">
+                #{useraccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userheadimg != null">
+                #{userheadimg,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            NOW(),
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="musicpreference != null">
+                #{musicpreference,jdbcType=VARCHAR},
+            </if>
+            <if test="signature != null">
+                #{signature,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.User">
+        update userbaseinfo
+        <set>
+            <if test="username != null">
+                UserName = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="useraccount != null">
+                UserAccount = #{useraccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                UserPassword = #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userheadimg != null">
+                UserHeadImg = #{userheadimg,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                Email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="registertime != null">
+                RegisterTime = #{registertime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="birthday != null">
+                Birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="location != null">
+                Location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                Sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="musicpreference != null">
+                MusicPreference = #{musicpreference,jdbcType=VARCHAR},
+            </if>
+            <if test="signature != null">
+                Signature = #{signature,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where UserId = #{userid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.Entity.User">
+    update userbaseinfo
+    set UserName = #{username,jdbcType=VARCHAR},
+      UserAccount = #{useraccount,jdbcType=VARCHAR},
+      UserPassword = #{userpassword,jdbcType=VARCHAR},
+      UserHeadImg = #{userheadimg,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      RegisterTime = #{registertime,jdbcType=TIMESTAMP},
+      Birthday = #{birthday,jdbcType=DATE},
+      Location = #{location,jdbcType=VARCHAR},
+      Sex = #{sex,jdbcType=VARCHAR},
+      MusicPreference = #{musicpreference,jdbcType=VARCHAR},
+      Signature = #{signature,jdbcType=LONGVARCHAR},
+       Status = #{status,jdbcType=VARCHAR}
+    where UserId = #{userid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.User">
+    update userbaseinfo
+    set UserName = #{username,jdbcType=VARCHAR},
+      UserAccount = #{useraccount,jdbcType=VARCHAR},
+      UserPassword = #{userpassword,jdbcType=VARCHAR},
+      UserHeadImg = #{userheadimg,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      RegisterTime = #{registertime,jdbcType=TIMESTAMP},
+      Birthday = #{birthday,jdbcType=DATE},
+      Location = #{location,jdbcType=VARCHAR},
+      Sex = #{sex,jdbcType=VARCHAR},
+      MusicPreference = #{musicpreference,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=VARCHAR}
+    where UserId = #{userid,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectByAccount" parameterType="String" resultMap="ResultMapWithBLOBs">
+    select * from userbaseinfo where UserAccount=#{UserAccount}
+  </select>
+    <insert id="InsertNoexist" parameterType="User" useGeneratedKeys="true" keyProperty="userid">
+    INSERT INTO userbaseinfo (UserName,UserAccount,UserPassword,UserHeadImg,Signature,Birthday,Location,Sex,MusicPreference,Email,RegisterTime)
+    select #{username},#{useraccount},#{userpassword},#{userheadimg},#{signature},#{birthday},#{location},#{sex},#{musicpreference},#{email},NOW()
+    from dual where not exists
+    (select 1 from userbaseinfo where UserAccount=#{UserAccount})
+  </insert>
+    <select id="getUserById" resultMap="ResultMapWithBLOBs" parameterType="Long">
+    select * from userbaseinfo where UserId=#{userid}
+  </select>
+    <select id="getUserByName" resultMap="ResultMapWithBLOBs" parameterType="String">
+    select * from userbaseinfo where UserName=#{UserName}
+  </select>
+    <select id="getUserByAccount" resultMap="ResultMapWithBLOBs" parameterType="String">
+    select * from userbaseinfo where UserAccount=#{UserAccount}
+  </select>
+    <insert id="AddUser" parameterType="User" useGeneratedKeys="true" keyProperty="userid">
+    INSERT INTO userbaseinfo (UserName,UserAccount,UserPassword,Email,Signature,Birthday,Location,Sex,RegisterTime)
+    VALUES (#{username},#{useraccount},#{userpassword},#{email},#{signature},#{birthday},#{location},#{sex},NOW())
+  </insert>
+    <delete id="DeleteUser" parameterType="Long">
+    DELETE userbaseinfo WHERE UserId=#{userid}
+  </delete>
+    <update id="UpdateUser" parameterType="User">
+        UPDATE userbaseinfo
+        <trim prefix="set" suffix="where UserId=#{userid}" suffixOverrides=",">
+            <if test="useraccount!=null">UserAccount=#{useraccount},</if>
+            <if test="userpassword!=null">UserPassword=#{userpassword},</if>
+            <if test="userheadimg!=null">UserHeadImg=#{userheadimg},</if>
+            <if test="email!=null">Email=#{email},</if>
+            <if test="signature!=null">Signature=#{signature},</if>
+            <if test="birthday!=null">Birthday=#{birthday},</if>
+            <if test="location!=null">Location=#{location},</if>
+            <if test="sex!=null">Sex=#{sex},</if>
+        </trim>
+    </update>
+    <select id="getUserList" parameterType="User" resultMap="ResultMapWithBLOBs">
+        select * from userbaseinfo
+        <trim prefix="where" prefixOverrides="and">
+            <if test="username!=null">and UserName=#{username},</if>
+            <if test="useraccount!=null">and UserAccount=#{useraccount},</if>
+            <if test="userpassword!=null">and UserPassword=#{userpassword},</if>
+            <if test="userheadimg!=null">and UserHeadImg=#{userheadimg},</if>
+            <if test="email!=null">and Email=#{email}</if>
+            <if test="birthday!=null">and Birthday=#{birthday},</if>
+            <if test="location!=null">and Location=#{location}</if>
+            <if test="sex!=null">and Sex=#{sex}</if>
+        </trim>
+    </select>
+    <select id="getUserAuthorityByName" parameterType="String" resultType="String">
+    SELECT  authorityname  from `securityuser` s where UserName=#{username}
+  </select>
+
+    <select id="IsExistEmail" resultType="Long" parameterType="String">
+    select count(1) from userbaseinfo where Email=#{email}
+  </select>
+
+    <select id="searchUser" resultMap="ResultMapWithBLOBs">
+    select u.UserId,u.UserName,u.UserAccount,u.UserHeadImg,u.Signature,u.MusicPreference,u.Email,u.RegisterTime,u.Birthday,u.Location,u.Sex from userbaseinfo u where UserName like #{key} limit #{pagenum},#{size}
+  </select>
+
+    <select id="CountSearchUser" resultType="Long" parameterType="String">
+    select COUNT(1) as count from userbaseinfo where UserName like #{key}
+  </select>
+
+    <select id="getRecomendUser" resultMap="ResultMapWithBLOBs">
+        SELECT
+        UserId,UserName,UserAccount,UserHeadImg,Signature,MusicPreference,Email,RegisterTime,Birthday,Location,Sex
+        FROM
+        (
+        SELECT
+        t1.*,
+        @rownum := @rownum + 1 AS rownum,
+        t2.count
+        FROM
+        `userbaseinfo` AS t1
+        JOIN (
+        SELECT
+        ROUND( RAND( ) * (( SELECT count( 1 ) FROM userbaseinfo )-1) ) AS count
+        ) AS t2,
+        ( SELECT @rownum := 0 ) r
+        WHERE 1=1
+        ) t3
+        WHERE
+        t3.rownum > t3.count
+        <if test="userid!=null">and t3.UserId!=#{userid}</if>
+        LIMIT #{size}
+    </select>
+
+    <select id="getUserIsFans" resultType="HashMap">
+      SELECT
+      u.UserId userid,
+      u.UserName username,
+      u.UserAccount useraccount,
+      u.UserHeadImg userheadimg,
+      u.UserPassword userpassword,
+      u.Signature signature,
+      u.MusicPreference musicpreference,
+      u.Email email,
+      u.RegisterTime registertime,
+      u.Birthday birthday,
+      u.Location location,
+      u.Sex sex,
+      IF
+      ( fa.count = 1, 'TRUE', 'FALSE' ) isfans
+      FROM
+      `userbaseinfo` u,
+      ( SELECT count( 1 ) AS count FROM fans f WHERE f.userid = #{userid} AND f.likeuserid = #{likeuserid} ) fa
+      WHERE
+      u.UserId = #{userid}
+  </select>
+
+    <select id="getAllUser" resultMap="BaseResultMap">
+    SELECT * FROM userbaseinfo order by RegisterTime limit  #{pagenum},#{size}
+  </select>
+
+    <select id="getAllUserCount" resultType="Long">
+    SELECT count(1) count FROM userbaseinfo
+  </select>
+
+    <delete id="Batchdeletion" parameterType="List">
+        delete from userbaseinfo where UserId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

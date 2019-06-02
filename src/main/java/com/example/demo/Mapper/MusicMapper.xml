@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.MusicMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.Music">
+        <id column="MusicId" jdbcType="BIGINT" property="musicid"/>
+        <result column="MusicName" jdbcType="VARCHAR" property="musicname"/>
+        <result column="Singer" jdbcType="VARCHAR" property="singer"/>
+        <result column="PlayNumber" jdbcType="BIGINT" property="playnumber"/>
+        <result column="Time" jdbcType="VARCHAR" property="time"/>
+        <result column="Type" jdbcType="VARCHAR" property="type"/>
+        <result column="Album" jdbcType="VARCHAR" property="album"/>
+        <result column="Language" jdbcType="VARCHAR" property="language"/>
+        <result column="LyricId" jdbcType="BIGINT" property="lyricid"/>
+        <result column="MusicAddress" jdbcType="VARCHAR" property="musicaddress"/>
+        <result column="MusicImg" jdbcType="VARCHAR" property="musicimg"/>
+        <result column="CreationDate" jdbcType="TIMESTAMP" property="creationdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    MusicId, MusicName, Singer, PlayNumber, Time, Type, Album, Language, LyricId, MusicAddress, 
+    MusicImg, CreationDate
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from musicbaseinfo
+        where MusicId = #{musicid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from musicbaseinfo
+    where MusicId = #{musicid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.Music">
+    insert into musicbaseinfo (MusicId, MusicName, Singer, 
+      PlayNumber, Time, Type, 
+      Album, Language, LyricId, 
+      MusicAddress, MusicImg, CreationDate
+      )
+    values (#{musicid,jdbcType=BIGINT}, #{musicname,jdbcType=VARCHAR}, #{singer,jdbcType=VARCHAR}, 
+      #{playnumber,jdbcType=BIGINT}, #{time,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{album,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, #{lyricid,jdbcType=BIGINT}, 
+      #{musicaddress,jdbcType=VARCHAR}, #{musicimg,jdbcType=VARCHAR}, #{creationdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.Music">
+        insert into musicbaseinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="musicid != null">
+                MusicId,
+            </if>
+            <if test="musicname != null">
+                MusicName,
+            </if>
+            <if test="singer != null">
+                Singer,
+            </if>
+            <if test="playnumber != null">
+                PlayNumber,
+            </if>
+            <if test="time != null">
+                Time,
+            </if>
+            <if test="type != null">
+                Type,
+            </if>
+            <if test="album != null">
+                Album,
+            </if>
+            <if test="language != null">
+                Language,
+            </if>
+            <if test="lyricid != null">
+                LyricId,
+            </if>
+            <if test="musicaddress != null">
+                MusicAddress,
+            </if>
+            <if test="musicimg != null">
+                MusicImg,
+            </if>
+            <if test="creationdate != null">
+                CreationDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="musicid != null">
+                #{musicid,jdbcType=BIGINT},
+            </if>
+            <if test="musicname != null">
+                #{musicname,jdbcType=VARCHAR},
+            </if>
+            <if test="singer != null">
+                #{singer,jdbcType=VARCHAR},
+            </if>
+            <if test="playnumber != null">
+                #{playnumber,jdbcType=BIGINT},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="album != null">
+                #{album,jdbcType=VARCHAR},
+            </if>
+            <if test="language != null">
+                #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="lyricid != null">
+                #{lyricid,jdbcType=BIGINT},
+            </if>
+            <if test="musicaddress != null">
+                #{musicaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="musicimg != null">
+                #{musicimg,jdbcType=VARCHAR},
+            </if>
+            <if test="creationdate != null">
+                #{creationdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.Music">
+        update musicbaseinfo
+        <set>
+            <if test="musicname != null">
+                MusicName = #{musicname,jdbcType=VARCHAR},
+            </if>
+            <if test="singer != null">
+                Singer = #{singer,jdbcType=VARCHAR},
+            </if>
+            <if test="playnumber != null">
+                PlayNumber = #{playnumber,jdbcType=BIGINT},
+            </if>
+            <if test="time != null">
+                Time = #{time,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                Type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="album != null">
+                Album = #{album,jdbcType=VARCHAR},
+            </if>
+            <if test="language != null">
+                Language = #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="lyricid != null">
+                LyricId = #{lyricid,jdbcType=BIGINT},
+            </if>
+            <if test="musicaddress != null">
+                MusicAddress = #{musicaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="musicimg != null">
+                MusicImg = #{musicimg,jdbcType=VARCHAR},
+            </if>
+            <if test="creationdate != null">
+                CreationDate = #{creationdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where MusicId = #{musicid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.Music">
+    update musicbaseinfo
+    set MusicName = #{musicname,jdbcType=VARCHAR},
+      Singer = #{singer,jdbcType=VARCHAR},
+      PlayNumber = #{playnumber,jdbcType=BIGINT},
+      Time = #{time,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=VARCHAR},
+      Album = #{album,jdbcType=VARCHAR},
+      Language = #{language,jdbcType=VARCHAR},
+      LyricId = #{lyricid,jdbcType=BIGINT},
+      MusicAddress = #{musicaddress,jdbcType=VARCHAR},
+      MusicImg = #{musicimg,jdbcType=VARCHAR},
+      CreationDate = #{creationdate,jdbcType=TIMESTAMP}
+    where MusicId = #{musicid,jdbcType=BIGINT}
+  </update>
+
+
+    <update id="updateMusic">
+    UPDATE musicbaseinfo set PlayNumber=#{PlayNumber} WHERE MusicId=#{MusicId}
+  </update>
+    <update id="updateMusicImg">
+     UPDATE musicbaseinfo set MusicImg=#{img} WHERE MusicId=#{musicid}
+  </update>
+    <select id="LimitMusic" resultMap="BaseResultMap">
+    SELECT * FROM musicbaseinfo LIMIT #{begin}, #{size}
+  </select>
+    <select id="selectByname" resultMap="BaseResultMap">
+    select * from musicbaseinfo where MusicName=#{MusicName} and Singer=#{Singer}
+  </select>
+    <insert id="InsertNoexist" parameterType="Music" useGeneratedKeys="true" keyProperty="MusicId">
+    INSERT INTO musicbaseinfo (MusicName,Singer,Time,Type,Album,Language,LyricId,MusicAddress,MusicImg)
+    select #{musicname},#{singer},#{time},#{type},#{album},#{language},#{lyricid},#{musicaddress},#{musicimg}
+    from dual where not exists
+    (select 1 from musicbaseinfo where MusicName=#{MusicName} and Singer=#{Singer})
+  </insert>
+    <select id="getMusic" resultMap="BaseResultMap" parameterType="String">
+    select * from musicbaseinfo where MusicId=#{musicid}
+  </select>
+    <insert id="AddMusic" parameterType="Music" useGeneratedKeys="true" keyProperty="MusicId">
+    INSERT INTO musicbaseinfo (MusicName,Singer,Time,Type,Album,Language,LyricId,MusicAddress,MusicImg)
+    VALUES (#{musicname},#{singer},#{time},#{type},#{album},#{language},#{lyricid},#{musicaddress},#{musicimg})
+  </insert>
+    <delete id="DeleteMusic" parameterType="Long">
+    DELETE musicbaseinfo WHERE MusicId=#{MusicId}
+  </delete>
+    <update id="UpdateMusic" parameterType="Music">
+        UPDATE musicbaseinfo
+        <trim prefix="set" suffix="where MusicId=#{musicid}" suffixOverrides=",">
+            <if test="musicname!=null">MusicName=#{musicname},</if>
+            <if test="singer!=null">Singer=#{singer},</if>
+            <if test="time!=null">Time=#{time},</if>
+            <if test="type!=null">Type=#{type},</if>
+            <if test="album!=null">Album=#{album},</if>
+            <if test="language!=null">Language=#{language},</if>
+            <if test="lyricid!=null">LyricId=#{lyricid},</if>
+            <if test="musicaddress!=null">MusicAddress=#{musicaddress},</if>
+            <if test="musicimg!=null">MusicImg=#{musicimg}</if>
+        </trim>
+    </update>
+    <select id="getMusicList" parameterType="Music" resultMap="BaseResultMap">
+        select * from musicbaseinfo
+        <trim prefix="where" prefixOverrides="and">
+            <if test="musicid!=null">MusicId=#{musicid}</if>
+            <if test="singer!=null">and Singer=#{singer}</if>
+            <if test="time!=null">and Time=#{time}</if>
+            <if test="type!=null">and Type=#{type}</if>
+            <if test="album!=null">and Album=#{album}</if>
+            <if test="language!=null">and Language=#{language}</if>
+            <if test="lyricid!=null">and LyricId=#{lyricid}</if>
+            <if test="musicaddress!=null">and MusicAddress=#{musicaddress}</if>
+            <if test="musicimg!=null">and MusicImg=#{musicimg}</if>
+        </trim>
+    </select>
+    <select id="getLikeMusicList" resultMap="BaseResultMap" parameterType="Music">
+        select * from musicbaseinfo
+        <trim prefix="where" prefixOverrides="and">
+            <if test="musicid!=null">MusicId like #{musicid}</if>
+            <if test="singer!=null">and Singer like #{singer}</if>
+            <if test="type!=null">and Type like #{type}</if>
+            <if test="album!=null">and Album like #{album}</if>
+        </trim>
+    </select>
+    <select id="getMusicBySheetId" resultMap="BaseResultMap" parameterType="Long">
+    SELECT m.* FROM `songsheetinfo` info,songsheet s,musicbaseinfo m where info.MusicId=m.MusicId and info.SheetId=s.SheetId and info.SheetId=#{sheetid}
+  </select>
+
+    <select id="getPageMusicBySheetId" resultMap="BaseResultMap">
+    SELECT m.* FROM `songsheetinfo` info,songsheet s,musicbaseinfo m where info.MusicId=m.MusicId and info.SheetId=s.SheetId and info.SheetId=#{sheetid} limit #{pagenumber},#{size}
+  </select>
+
+    <select id="getNewstSongList" resultMap="BaseResultMap">
+    select * from musicbaseinfo order by CreationDate limit #{offset},#{size}
+  </select>
+
+    <select id="getlanguageBandSongList" resultType="HashMap">
+    select * from music_band_v m where m.Type like #{bandname} order by hot limit #{pagenum},#{size}
+  </select>
+
+    <select id="getGlobalBandSongList" resultType="HashMap">
+    select * from music_band_v m order by hot limit #{pagenum},#{size}
+  </select>
+
+    <select id="getNewBandSongList" resultType="HashMap">
+    select * from (select * from music_band_v m  order by creationDate desc limit #{pagenum},#{size} ) a order by hot desc
+  </select>
+
+    <select id="selectRecommendMusic" parameterType="HashMap" resultMap="BaseResultMap">
+        select MusicId,MusicName,Singer,PlayNumber,Time,Type,Album,Language,LyricId,MusicAddress,MusicImg,CreationDate
+        from (
+        SELECT t1.* ,@rownum:=@rownum+1 as rownum,t2.count
+        FROM `musicbaseinfo` AS t1 JOIN (
+        SELECT ROUND(RAND() * (SELECT count(1) from musicbaseinfo m
+        <trim prefix="where" prefixOverrides="or">
+            <foreach collection="musicpreference" item="preference">
+                or m.Type like #{preference}
+            </foreach>
+        </trim>
+        )) AS count) AS t2 ,( SELECT @rownum := 0 ) r
+        <trim prefix="where" prefixOverrides="or">
+            <foreach collection="musicpreference" item="preference">
+                or t1.Type like #{preference}
+            </foreach>
+        </trim>
+        ) t3 where t3.rownum>t3.count LIMIT #{size}
+    </select>
+
+    <select id="CountRecommendMusic" parameterType="HashMap" resultType="int">
+        SELECT count(1) from musicbaseinfo m
+        <trim prefix="where" prefixOverrides="or">
+            <foreach collection="musicpreference" item="preference">
+                or m.Type like #{preference}
+            </foreach>
+        </trim>
+    </select>
+
+    <select id="searchMusic" resultMap="BaseResultMap">
+    select * from musicbaseinfo m where m.Type LIKE #{key} or m.Singer like #{key} or m.Album like #{key} or m.MusicName like #{key} limit #{pagenum},#{size}
+  </select>
+
+
+    <select id="countSearchMusic" parameterType="String" resultType="Long">
+    select count(1) as count from musicbaseinfo m where m.Type LIKE #{key} or m.Singer like #{key} or m.Album like #{key} or m.MusicName like #{key}
+  </select>
+
+    <select id="clearImg" resultMap="BaseResultMap">
+       select * from musicbaseinfo where musicbaseinfo.MusicImg  like 'https://v1.itooi.cn/netease/pic?id=%' limit #{pagenum},#{size}
+  </select>
+
+    <select id="getAlbumBySingerName" resultType="HashMap">
+    		SELECT
+			Album as album,any_value(MusicImg) as musicimg,Count(1) as count
+            FROM
+                `musicbaseinfo` m
+            WHERE
+                Singer = #{singername}
+            GROUP  BY
+                Album
+  </select>
+
+    <select id="getMusicFromAlbum" resultMap="BaseResultMap" parameterType="String">
+    SELECT * FROM `musicbaseinfo` m  WHERE  Album = #{album}
+  </select>
+
+    <select id="getAllMusic" resultMap="BaseResultMap">
+      SELECT * FROM musicbaseinfo limit #{pagenum},#{size}
+  </select>
+
+    <select id="getAllMusicCount" resultType="Long">
+    SELECT count(1) count FROM musicbaseinfo
+  </select>
+
+    <delete id="Batchdeletion" parameterType="List">
+        delete from musicbaseinfo where MusicId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

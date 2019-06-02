@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.TrackCommentMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.TrackComment">
+        <id column="CommentId" jdbcType="BIGINT" property="commentid"/>
+        <result column="trackId" jdbcType="BIGINT" property="trackid"/>
+        <result column="UserId" jdbcType="BIGINT" property="userid"/>
+        <result column="date" jdbcType="TIMESTAMP" property="date"/>
+        <result column="Fabulous" jdbcType="BIGINT" property="fabulous"/>
+        <result column="ReplyCommentId" jdbcType="BIGINT" property="replycommentid"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.TrackComment">
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    CommentId, trackId, UserId, date, Fabulous, ReplyCommentId
+  </sql>
+    <sql id="Blob_Column_List">
+    content
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from trackcomment
+        where CommentId = #{commentid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from trackcomment
+    where CommentId = #{commentid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.TrackComment">
+    insert into trackcomment (CommentId, trackId, UserId, 
+      date, Fabulous, ReplyCommentId, 
+      content)
+    values (#{commentid,jdbcType=BIGINT}, #{trackid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, 
+      #{date,jdbcType=TIMESTAMP}, #{fabulous,jdbcType=BIGINT}, #{replycommentid,jdbcType=BIGINT}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.TrackComment">
+        insert into trackcomment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentid != null">
+                CommentId,
+            </if>
+            <if test="trackid != null">
+                trackId,
+            </if>
+            <if test="userid != null">
+                UserId,
+            </if>
+            <if test="date != null">
+                date,
+            </if>
+            <if test="fabulous != null">
+                Fabulous,
+            </if>
+            <if test="replycommentid != null">
+                ReplyCommentId,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentid != null">
+                #{commentid,jdbcType=BIGINT},
+            </if>
+            <if test="trackid != null">
+                #{trackid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fabulous != null">
+                #{fabulous,jdbcType=BIGINT},
+            </if>
+            <if test="replycommentid != null">
+                #{replycommentid,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.TrackComment">
+        update trackcomment
+        <set>
+            <if test="trackid != null">
+                trackId = #{trackid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                UserId = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                date = #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fabulous != null">
+                Fabulous = #{fabulous,jdbcType=BIGINT},
+            </if>
+            <if test="replycommentid != null">
+                ReplyCommentId = #{replycommentid,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where CommentId = #{commentid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.Entity.TrackComment">
+    update trackcomment
+    set trackId = #{trackid,jdbcType=BIGINT},
+      UserId = #{userid,jdbcType=BIGINT},
+      date = #{date,jdbcType=TIMESTAMP},
+      Fabulous = #{fabulous,jdbcType=BIGINT},
+      ReplyCommentId = #{replycommentid,jdbcType=BIGINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where CommentId = #{commentid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.TrackComment">
+    update trackcomment
+    set trackId = #{trackid,jdbcType=BIGINT},
+      UserId = #{userid,jdbcType=BIGINT},
+      date = #{date,jdbcType=TIMESTAMP},
+      Fabulous = #{fabulous,jdbcType=BIGINT},
+      ReplyCommentId = #{replycommentid,jdbcType=BIGINT}
+    where CommentId = #{commentid,jdbcType=BIGINT}
+  </update>
+
+    <select id="getTrackCommentInfoById" resultMap="ResultMapWithBLOBs" parameterType="Long">
+    SELECT * FROM trackcomment WHERE trackId=#{trackId}
+  </select>
+    <insert id="addTrackCommentInfo" parameterType="TrackComment" useGeneratedKeys="true" keyProperty="commentid">
+    INSERT INTO trackcomment (trackId,UserId,date,content)
+    VALUES (#{trackid},#{userid},#{date},#{content})
+  </insert>
+    <insert id="addReplyTrackCommentInfo" parameterType="TrackComment" useGeneratedKeys="true" keyProperty="commentid">
+    INSERT INTO trackcomment (trackId,UserId,date,content,ReplyCommentId)
+    VALUES (#{trackid},#{userid},#{date},#{content},#{replycommentid})
+  </insert>
+    <delete id="deleteTrackCommentInfo" parameterType="Long">
+    DELETE FROM trackcomment WHERE CommentId=#{CommentId}
+  </delete>
+    <update id="updateTrackCommentInfo" parameterType="TrackComment">
+        UPDATE trackcomment
+        <trim prefix="set" suffix="WHERE CommentId=#{commentid}" suffixOverrides=",">
+            <if test="date!=null">date=#{date},</if>
+            <if test="content!=null">content=#{content},</if>
+        </trim>
+    </update>
+
+    <select id="selectCommentByTrackidFromTrack" resultType="java.util.HashMap">
+    select username,userheadimg,userid,content,date,fabulous,commentid,replycommentid,`count` from track_comment_info_v v where v.trackid=#{trackid} and v.replycommentid is null order by date limit #{start},#{size}
+  </select>
+    <select id="selectCommentCountByTrackidFromTrack" resultType="Long">
+    select count(1) from track_comment_info_v v where v.trackid=#{trackid} and v.replycommentid is null
+  </select>
+    <select id="selectReplyBycommentidFromTrack" resultType="java.util.HashMap">
+    select username,userheadimg,userid,content,date,fabulous,commentid,replycommentid,`count` from track_comment_info_v v where v.replycommentid=#{commentid} order by date limit #{start},#{size}
+  </select>
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.TrackMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.Track">
+        <id column="TrackId" jdbcType="BIGINT" property="trackid"/>
+        <result column="UserId" jdbcType="BIGINT" property="userid"/>
+        <result column="Date" jdbcType="TIMESTAMP" property="date"/>
+        <result column="ImgContent1" jdbcType="VARCHAR" property="imgcontent1"/>
+        <result column="ImgContent2" jdbcType="VARCHAR" property="imgcontent2"/>
+        <result column="ImgContent3" jdbcType="VARCHAR" property="imgcontent3"/>
+        <result column="VideoContent" jdbcType="VARCHAR" property="videocontent"/>
+        <result column="Fabulous" jdbcType="BIGINT" property="fabulous"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.Entity.Track">
+        <result column="TextContent" jdbcType="LONGVARCHAR" property="textcontent"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    TrackId, UserId, Date, ImgContent1, ImgContent2, ImgContent3, VideoContent, Fabulous
+  </sql>
+    <sql id="Blob_Column_List">
+    TextContent
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from track
+        where TrackId = #{trackid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from track
+    where TrackId = #{trackid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.Track">
+    insert into track (TrackId, UserId, Date, 
+      ImgContent1, ImgContent2, ImgContent3, 
+      VideoContent, Fabulous, TextContent
+      )
+    values (#{trackid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{date,jdbcType=TIMESTAMP}, 
+      #{imgcontent1,jdbcType=VARCHAR}, #{imgcontent2,jdbcType=VARCHAR}, #{imgcontent3,jdbcType=VARCHAR}, 
+      #{videocontent,jdbcType=VARCHAR}, #{fabulous,jdbcType=BIGINT}, #{textcontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.Track">
+        insert into track
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="trackid != null">
+                TrackId,
+            </if>
+            <if test="userid != null">
+                UserId,
+            </if>
+            <if test="date != null">
+                Date,
+            </if>
+            <if test="imgcontent1 != null">
+                ImgContent1,
+            </if>
+            <if test="imgcontent2 != null">
+                ImgContent2,
+            </if>
+            <if test="imgcontent3 != null">
+                ImgContent3,
+            </if>
+            <if test="videocontent != null">
+                VideoContent,
+            </if>
+            <if test="fabulous != null">
+                Fabulous,
+            </if>
+            <if test="textcontent != null">
+                TextContent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="trackid != null">
+                #{trackid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="imgcontent1 != null">
+                #{imgcontent1,jdbcType=VARCHAR},
+            </if>
+            <if test="imgcontent2 != null">
+                #{imgcontent2,jdbcType=VARCHAR},
+            </if>
+            <if test="imgcontent3 != null">
+                #{imgcontent3,jdbcType=VARCHAR},
+            </if>
+            <if test="videocontent != null">
+                #{videocontent,jdbcType=VARCHAR},
+            </if>
+            <if test="fabulous != null">
+                #{fabulous,jdbcType=BIGINT},
+            </if>
+            <if test="textcontent != null">
+                #{textcontent,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.Entity.Track">
+        update track
+        <set>
+            <if test="userid != null">
+                UserId = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                Date = #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="imgcontent1 != null">
+                ImgContent1 = #{imgcontent1,jdbcType=VARCHAR},
+            </if>
+            <if test="imgcontent2 != null">
+                ImgContent2 = #{imgcontent2,jdbcType=VARCHAR},
+            </if>
+            <if test="imgcontent3 != null">
+                ImgContent3 = #{imgcontent3,jdbcType=VARCHAR},
+            </if>
+            <if test="videocontent != null">
+                VideoContent = #{videocontent,jdbcType=VARCHAR},
+            </if>
+            <if test="fabulous != null">
+                Fabulous = #{fabulous,jdbcType=BIGINT},
+            </if>
+            <if test="textcontent != null">
+                TextContent = #{textcontent,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where TrackId = #{trackid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.Entity.Track">
+    update track
+    set UserId = #{userid,jdbcType=BIGINT},
+      Date = #{date,jdbcType=TIMESTAMP},
+      ImgContent1 = #{imgcontent1,jdbcType=VARCHAR},
+      ImgContent2 = #{imgcontent2,jdbcType=VARCHAR},
+      ImgContent3 = #{imgcontent3,jdbcType=VARCHAR},
+      VideoContent = #{videocontent,jdbcType=VARCHAR},
+      Fabulous = #{fabulous,jdbcType=BIGINT},
+      TextContent = #{textcontent,jdbcType=LONGVARBINARY}
+    where TrackId = #{trackid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.Entity.Track">
+    update track
+    set UserId = #{userid,jdbcType=BIGINT},
+      Date = #{date,jdbcType=TIMESTAMP},
+      ImgContent1 = #{imgcontent1,jdbcType=VARCHAR},
+      ImgContent2 = #{imgcontent2,jdbcType=VARCHAR},
+      VideoContent = #{videocontent,jdbcType=VARCHAR},
+      ImgContent3 = #{imgcontent3,jdbcType=VARCHAR},
+      Fabulous = #{fabulous,jdbcType=BIGINT}
+    where TrackId = #{trackid,jdbcType=BIGINT}
+  </update>
+
+    <select id="getTracktInfoById" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM track WHERE UserId=#{userid} ORDER BY date desc limit #{pagenum},#{size}
+  </select>
+    <select id="getTrackInfoByTime" resultMap="ResultMapWithBLOBs">
+        SELECT * FROM track t where t.Date>=#{startDate}
+        <if test="endDate!=null">and t.Date&lt;=#{endDate}</if>
+    </select>
+    <insert id="addTrackInfo" parameterType="Track" useGeneratedKeys="true" keyProperty="trackid">
+        INSERT INTO track
+        <trim suffixOverrides="," prefix=" (" suffix=")">
+            <if test="userid!=null">UserId,</if>
+            <if test="textcontent!=null">TextContent,</if>
+            <if test="date!=null">Date,</if>
+            <if test="imgcontent1!=null">ImgContent1,</if>
+            <if test="imgcontent2!=null">ImgContent2,</if>
+            <if test="imgcontent3!=null">ImgContent3,</if>
+            <if test="videocontent!=null">VideoContent,</if>
+        </trim>
+        <trim suffixOverrides="," prefix=" values(" suffix=")">
+            <if test="userid!=null">#{userid},</if>
+            <if test="textcontent!=null">#{textcontent},</if>
+            <if test="date!=null">#{date},</if>
+            <if test="imgcontent1!=null">#{imgcontent1},</if>
+            <if test="imgcontent2!=null">#{imgcontent2},</if>
+            <if test="imgcontent3!=null">#{imgcontent3},</if>
+            <if test="videocontent!=null">#{videocontent},</if>
+        </trim>
+    </insert>
+    <delete id="deleteTrackInfo" parameterType="Long">
+    DELETE FROM track WHERE TrackId=#{TrackId}
+  </delete>
+    <update id="updateFabulous" parameterType="Track">
+    UPDATE track set Fabulous=#{fabulous}  WHERE TrackId=#{trackid}
+  </update>
+
+    <select id="selectNewestTrack" resultType="HashMap">
+    select v.likeuserid as userid,v.trackid,v.username,v.userheadimg,v.date,v.fabulous,v.imgcontent1,v.imgcontent2,v.imgcontent3,v.textcontent,v.videocontent,'true' as isfans from follow_track_v v
+    where v.userid=#{userid}
+    UNION
+    (select t.userid,t.trackid,t.username,t.userheadimg,t.date,t.fabulous,t.imgcontent1,t.imgcontent2,t.imgcontent3,t.textcontent,t.videocontent,'false' as isfans from track_deatil_v t
+    where t.userid not in(select f.likeuserid from fans f where f.userid=#{userid})  ORDER BY date desc LIMIT #{NofollowPagenum},#{NofollowPagesize}) ORDER BY date desc limit #{pagenum},#{pagesize}
+  </select>
+
+    <select id="CountSocialData" parameterType="Long" resultType="HashMap">
+    select * from
+
+    (select count(1) as trackcount from track t where t.UserId=#{userid}) track1,
+
+    (select count(1) as followcount from fans f where f.userid=#{userid}) follow,
+
+    (select count(1) as fanscount from fans f2 where f2.likeuserid=#{userid}) fans
+  </select>
+</mapper>

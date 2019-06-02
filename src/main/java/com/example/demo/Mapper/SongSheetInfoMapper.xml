@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.SongSheetInfoMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.Entity.SongSheetInfoKey">
+        <id column="MusicId" jdbcType="BIGINT" property="musicid"/>
+        <id column="SheetId" jdbcType="BIGINT" property="sheetid"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="com.example.demo.Entity.SongSheetInfoKey">
+    delete from songsheetinfo
+    where MusicId = #{musicid,jdbcType=BIGINT}
+      and SheetId = #{sheetid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.example.demo.Entity.SongSheetInfoKey">
+    INSERT INTO songsheetinfo (MusicId, SheetId)
+    select #{musicid},#{sheetid}
+    from dual where not exists
+    (select 1 from songsheetinfo where MusicId=#{musicid} and SheetId=#{sheetid})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.Entity.SongSheetInfoKey">
+        insert into songsheetinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="musicid != null">
+                MusicId,
+            </if>
+            <if test="sheetid != null">
+                SheetId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="musicid != null">
+                #{musicid,jdbcType=BIGINT},
+            </if>
+            <if test="sheetid != null">
+                #{sheetid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+</mapper>
