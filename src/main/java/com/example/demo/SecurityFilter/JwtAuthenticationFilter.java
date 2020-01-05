@@ -43,6 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     public void setRequiresAuthenticationRequestMatcher(RequestMatcher requiresAuthenticationRequestMatcher) {
+        String s=null;
         this.requiresAuthenticationRequestMatcher = requiresAuthenticationRequestMatcher;
     }
 
